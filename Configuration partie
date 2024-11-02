@@ -15,7 +15,75 @@ Début
 Fin
 
 
- // Configure la taille du plateau et les joueurs   
+Variables locales
+
+taille_plateau (entier)
+nombre_joueurs (entier)
+noms (tableau de chaînes de caractères de taille MAX_JOUEURS x MAX_NOM)
+murs_restants (tableau d'entiers de taille MAX_JOUEURS)
+Début du sous-programme
+
+Configurer la taille du plateau :
+
+Afficher "Entrez la taille du plateau (entre ", TAILLE_MIN, " et ", TAILLE_MAX, ") :"
+Lire taille_plateau
+Si taille_plateau < TAILLE_MIN ou taille_plateau > TAILLE_MAX alors
+Afficher "Taille invalide. Plateau de taille ", TAILLE_MIN, " sera utilisé par défaut."
+taille_plateau ← TAILLE_MIN
+Fin Si
+Afficher "Taille du plateau configurée : ", taille_plateau
+Configurer le nombre de joueurs :
+
+Afficher "Entrez le nombre de joueurs (2 ou 4) :"
+Lire nombre_joueurs
+Si nombre_joueurs ≠ 2 et nombre_joueurs ≠ 4 alors
+Afficher "Nombre invalide. Configuration par défaut pour 2 joueurs."
+nombre_joueurs ← 2
+Fin Si
+Initialiser les joueurs et leurs murs :
+
+Définir murs_initiaux comme suit : Si nombre_joueurs = 2 alors murs_initiaux ← 10 sinon murs_initiaux ← 5
+Pour i allant de 0 à nombre_joueurs - 1 faire
+Afficher "Entrez le nom du joueur ", i + 1, " :"
+Lire noms[i]
+murs_restants[i] ← murs_initiaux
+Fin Pour
+Fin du sous-programme
+
+
+// main.c
+#include <stdio.h>
+#include "config.h"
+
+
+
+
+
+int main() {
+
+    configurerPartie();  // Configure la taille du plateau et les joueurs
+
+    initialiserPlateau();  // Initialise et affiche le plateau
+
+    printf("Configuration de la partie :\n");
+    printf("Taille du plateau : %d\n", taille_plateau);
+    printf("Nombre de joueurs : %d\n", nombre_joueurs);
+    for (int i = 0; i < nombre_joueurs; i++) {
+        printf("Joueur %d : %s, Murs restants : %d\n", i + 1, noms[i], murs_restants[i]);
+    }
+
+    return 0;
+}
+
+
+
+
+
+// config.c
+#include <stdio.h>
+#include "config.h"  // Inclusion de l'en-tête où les variables globales sont déclarées avec extern
+
+// Définitions des variables globales
 int taille_plateau;
 char noms[MAX_JOUEURS][MAX_NOM];
 int nombre_joueurs;
@@ -48,3 +116,49 @@ void configurerPartie() {
         murs_restants[i] = murs_initiaux;
     }
 }
+
+
+
+
+
+// config.h
+#ifndef CONFIG_H
+#define CONFIG_H
+
+#define MAX_JOUEURS 4
+#define MAX_NOM 50
+#define TAILLE_MIN 5     // Taille minimale du plateau
+#define TAILLE_MAX 15    // Taille maximale du plateau
+
+// Déclarations des variables globales
+extern int taille_plateau;
+extern char noms[MAX_JOUEURS][MAX_NOM];
+extern int nombre_joueurs;
+extern int murs_restants[MAX_JOUEURS];
+
+// Prototypes des fonctions
+void configurerPartie();
+void initialiserPlateau();
+void afficherPlateau();
+
+#endif
+
+
+
+
+// plateau.c
+#include <stdio.h>
+#include "config.h"
+
+void afficherPlateau(char plateau[][TAILLE_MAX], int taille) {
+    for (int i = 0; i < taille; i++) {
+        for (int j = 0; j < taille; j++) {
+            printf("%c ", plateau[i][j]);
+        }
+        printf("\n");
+    }
+}
+
+void initialiserPlateau() {
+    char plateau[TAILLE_MAX][TAILLE_MAX];
+
