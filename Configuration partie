@@ -1,0 +1,50 @@
+
+Début
+    Appeler configurerPartie()
+    // Configure la taille du plateau et les joueurs
+
+
+    Afficher("Configuration de la partie :")
+    Afficher("Taille du plateau : ", taille_plateau)
+    Afficher("Nombre de joueurs : ", nombre_joueurs)
+
+    Pour i allant de 0 à nombre_joueurs - 1 faire
+        Afficher("Joueur ", i + 1, " : ", noms[i], ", Murs restants : ", murs_restants[i])
+    Fin Pour
+
+Fin
+
+
+ // Configure la taille du plateau et les joueurs   
+int taille_plateau;
+char noms[MAX_JOUEURS][MAX_NOM];
+int nombre_joueurs;
+int murs_restants[MAX_JOUEURS];
+
+void configurerPartie() {
+
+    // taille plateau
+    printf("Entrez la taille du plateau (entre %d et %d) : ", TAILLE_MIN, TAILLE_MAX);
+    scanf("%d", &taille_plateau);
+
+    if (taille_plateau < TAILLE_MIN || taille_plateau > TAILLE_MAX) {
+        printf("Taille invalide. Plateau de taille %d sera utilisé par défaut.\n", TAILLE_MIN);
+        taille_plateau = TAILLE_MIN;
+    }
+    printf("Taille du plateau configurée : %d\n", taille_plateau);  // Message de confirmation
+
+    // Demande du nombre de joueurs
+    printf("Entrez le nombre de joueurs (2 ou 4) : ");
+    scanf("%d", &nombre_joueurs);
+    if (nombre_joueurs != 2 && nombre_joueurs != 4) {
+        printf("Nombre invalide. Configuration par défaut pour 2 joueurs.\n");
+        nombre_joueurs = 2;
+    }
+
+    int murs_initiaux = (nombre_joueurs == 2) ? 10 : 5;
+    for (int i = 0; i < nombre_joueurs; i++) {
+        printf("Entrez le nom du joueur %d : ", i + 1);
+        scanf("%s", noms[i]);
+        murs_restants[i] = murs_initiaux;
+    }
+}
