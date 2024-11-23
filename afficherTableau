@@ -1,0 +1,41 @@
+#include <stdio.h>
+void afficherPlateau(int size) {
+    // Afficher les indices des colonnes (1 à size)
+    printf("    "); // Espace initial pour aligner avec les indices des lignes
+    for (int col = 1; col <= size; col++) {
+        printf("%-4d", col); // Espacement aligné pour chaque numéro de colonne
+    }
+    printf("\n");
+
+    // Dessiner le tableau
+    for (int i = 1; i <= size; i++) {
+        // Afficher l'indice de la ligne
+        printf("%-4d", i);
+
+        // Dessiner la ligne supérieure des cases
+        for (int j = 0; j < size; j++) {
+            printf("+---");
+        }
+        printf("+\n");
+
+        // Afficher l'indice de la ligne pour les espaces intérieurs
+        printf("    "); // Alignement pour l'intérieur
+        for (int j = 0; j < size; j++) {
+            printf("|   ");
+        }
+        printf("|\n");
+    }
+
+    // Dessiner la dernière ligne inférieure
+    printf("    "); // Alignement pour l'intérieur
+    for (int j = 0; j < size; j++) {
+        printf("+---");
+    }
+    printf("+\n");
+}
+
+int main() {
+    int size = 17; // Taille du tableau (17x17)
+    afficherPlateau(size);
+    return 0;
+}
